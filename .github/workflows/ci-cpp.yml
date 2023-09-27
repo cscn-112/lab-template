@@ -13,7 +13,7 @@ env:
 jobs:
   suite:
     name: C++ Build & Test
-    cancel-timeout-minutes: ${{ matrix.time_limit }}
+    cancel-timeout-minutes: ${{ matrix.time_limit || 10 }}
     strategy:
       matrix:
         os:
@@ -22,6 +22,7 @@ jobs:
         include:
           - os: ubuntu-latest
             time_limit: 2
+          - os: windows-latest
 
     runs-on: ${{ matrix.os }}
     defaults:
@@ -53,7 +54,9 @@ jobs:
       - name: Build code
         run: zig build --verbose --summary all --color on
       - name: Test code
-        run: zig test src/** --color on
+        run: zig test ${{ env.src_dir }} --color on
+        env:
+          src_dir: ${{ runner.os == 'Windows' && 'src\**' || 'src/**' }}
 
       - name: Upload build
         uses: actions/upload-artifact@v3
