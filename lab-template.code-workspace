@@ -23,7 +23,8 @@
       "Zig",
       "Rust",
       "renovate",
-      "meta"
+      "meta",
+      "maybe"
     ]
   }
 }
