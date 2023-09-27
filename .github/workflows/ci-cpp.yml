@@ -22,7 +22,6 @@ jobs:
         include:
           - os: ubuntu-latest
             time_limit: 2
-          - os: windows-latest
 
     runs-on: ${{ matrix.os }}
     defaults:
