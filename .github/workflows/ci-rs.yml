@@ -8,11 +8,11 @@ on:
 
 env:
   cwd: rs
-  cache-name: build-cache    
+  cache-name: build-cache
 
 jobs:
   suite:
-    name: Rust Build & Test      
+    name: Rust Build & Test
     strategy:
       matrix:
         os:
@@ -40,8 +40,8 @@ jobs:
           base-key: ${{ env.cache-name }}-${{ runner.os }}
         with:
           path: |
-             ${{ env.cwd }}/target
-             ${{ env.cwd }}/Cargo.lock
+            ${{ env.cwd }}/target
+            ${{ env.cwd }}/Cargo.lock
           key: ${{ env.base-key }}-${{ env.cwd }}
           restore-keys: ${{ env.base-key }}
 

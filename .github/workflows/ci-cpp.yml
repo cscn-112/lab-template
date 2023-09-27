@@ -8,7 +8,7 @@ on:
 
 env:
   cwd: cpp
-  cache-name: build-cache    
+  cache-name: build-cache
 
 jobs:
   suite:
@@ -40,8 +40,8 @@ jobs:
           base-key: ${{ env.cache-name }}-${{ runner.os }}
         with:
           path: |
-             ${{ env.cwd }}/zig-out
-             ${{ env.cwd }}/zig-cache
+            ${{ env.cwd }}/zig-out
+            ${{ env.cwd }}/zig-cache
           key: ${{ env.base-key }}-${{ env.cwd }}
           restore-keys: ${{ env.base-key }}
 

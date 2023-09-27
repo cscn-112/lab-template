@@ -5,7 +5,7 @@ on:
     branches: main
 
 env:
-  cache-name: build-cache    
+  cache-name: build-cache
 
 jobs:
   zig_build:
@@ -36,8 +36,8 @@ jobs:
           base-key: ${{ env.cache-name }}-${{ runner.os }}
         with:
           path: |
-             ${{ env.cwd }}/zig-out
-             ${{ env.cwd }}/zig-cache
+            ${{ env.cwd }}/zig-out
+            ${{ env.cwd }}/zig-cache
           key: ${{ env.base-key }}-${{ env.cwd }}
           restore-keys: ${{ env.base-key }}
 
@@ -91,8 +91,8 @@ jobs:
           base-key: ${{ env.cache-name }}-${{ runner.os }}
         with:
           path: |
-             ${{ env.cwd }}/target
-             ${{ env.cwd }}/Cargo.lock
+            ${{ env.cwd }}/target
+            ${{ env.cwd }}/Cargo.lock
           key: ${{ env.base-key }}-${{ env.cwd }}
           restore-keys: ${{ env.base-key }}
 
