@@ -43,6 +43,8 @@ jobs:
 
       - name: Set up Zig
         uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.11.x
 
       # Where the magic happens :sparkle:
 
