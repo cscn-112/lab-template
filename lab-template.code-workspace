@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "name": "C++ Implementation",
+      "path": "cpp"
+    },
+    {
+      "name": "Rust Implementation",
+      "path": "rs"
+    },
+    {
+      "name": "Zig Implementation",
+      "path": "zig"
+    },
+    {
+      "name": "Root",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "conventionalCommits.scopes": [
+      "C++",
+      "Zig",
+      "Rust",
+      "renovate",
+      "meta"
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+name: Rust CI
+
+on:
+  push:
+    paths: rs/**
+  pull_request:
+    paths: rs/**
+
+env:
+  cwd: rs
+  cache-name: build-cache    
+
+jobs:
+  suite:
+    name: Rust Build & Test      
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+        toolchain:
+          - stable
+          - beta
+          - nightly
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ${{ env.cwd }}
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: ${{ env.cwd }}
+
+      - name: Add cache
+        uses: actions/cache@v3
+        env:
+          base-key: ${{ env.cache-name }}-${{ runner.os }}
+        with:
+          path: |
+             ${{ env.cwd }}/target
+             ${{ env.cwd }}/Cargo.lock
+          key: ${{ env.base-key }}-${{ env.cwd }}
+          restore-keys: ${{ env.base-key }}
+
+      - name: Set up Rust toolchain
+        run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
+
+      # Where the magic happens :sparkle:
+
+      - name: Build code
+        run: cargo build --verbose --color always
+      - name: Test code
+        run: cargo test --verbose --color always
+
+      - name: Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ env.cwd }}-${{ runner.os }}
+          path: |
+            ${{ env.cwd }}/src
+            ${{ env.cwd }}/target
+            ${{ env.cwd }}/README.md
