@@ -57,7 +57,7 @@ jobs:
       - name: Test code
         run: zig test ${{ env.src_dir }} --color on
         env:
-          src_dir: ${{ runner.os == 'Windows' && 'src\**.zig' || 'src/**.zig' }}
+          src_dir: ${{ runner.os == 'Windows' && 'src/**.zig' || 'src/**.zig' }}
 
       - name: Upload build
         uses: actions/upload-artifact@v3
