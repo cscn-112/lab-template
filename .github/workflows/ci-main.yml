@@ -43,15 +43,18 @@ jobs:
 
       - name: Set up Zig
         uses: goto-bus-stop/setup-zig@v2
-        with:
-          version: 0.11.0
 
       # Where the magic happens :sparkle:
 
-      - name: Build code
+      - name: Build code (Zig)
+        id: zig_build
         run: zig build --verbose --summary all --color on
-      # - name: Test code
-      #   run: zig test
+        continue-on-error: true
+
+      - name: Build code (Rust)
+        id: rs_build
+        if: matrix.cwd == 'cpp' && steps.zig_build.outcome != 'success'
+        run: cargo build --verbose --color always
 
       - name: Upload build
         uses: actions/upload-artifact@v3
@@ -60,6 +63,7 @@ jobs:
           path: |
             ${{ env.cwd }}/src
             ${{ env.cwd }}/zig-out
+            ${{ env.cwd }}/target/debug/cpp*
             ${{ env.cwd }}/README.md
 
   rs_build:

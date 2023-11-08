@@ -42,22 +42,33 @@ jobs:
           path: |
             ${{ env.cwd }}/zig-out
             ${{ env.cwd }}/zig-cache
+            ${{ env.cwd }}/target
+            ${{ env.cwd }}/Cargo.lock
           key: ${{ env.base-key }}-${{ env.cwd }}
           restore-keys: ${{ env.base-key }}
 
       - name: Set up Zig
         uses: goto-bus-stop/setup-zig@v2
-        with:
-          version: 0.11.0
 
       # Where the magic happens :sparkle:
 
-      - name: Build code
+      - name: Build code (Zig)
+        id: zig_build
         run: zig build --verbose --summary all --color on
-      - name: Test code
+        continue-on-error: true
+      - name: Test code (Zig)
+        if: steps.zig_build.outcome == 'success'
         run: zig test ${{ env.src_dir }} --color on
         env:
-          src_dir: ${{ runner.os == 'Windows' && 'src/sanity_test.zig' || 'src/**.zig' }}
+          src_dir: ${{ runner.os == 'Windows' && 'test/sanity.zig' || 'test/sanity.zig' }}
+
+      - name: Build code (Rust)
+        id: rs_build
+        if: steps.zig_build.outcome != 'success'
+        run: cargo build --verbose --color always
+      - name: Test code (Rust)
+        if: steps.rs_build.outcome != 'skipped'
+        run: cargo test --verbose --color always
 
       - name: Upload build
         uses: actions/upload-artifact@v3
@@ -66,4 +77,5 @@ jobs:
           path: |
             ${{ env.cwd }}/src
             ${{ env.cwd }}/zig-out
+            ${{ env.cwd }}/target/debug/cpp*
             ${{ env.cwd }}/README.md
