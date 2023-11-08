@@ -5,13 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug",
+            "name": "Debug Executable",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/zig-out/bin/lab-2-class-construction",
-            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/zig-out/bin/lab-template",
+            "preLaunchTask": "build-exe",
             "cwd": ".",
-            "MIMode": "lldb"
+            "MIMode": "lldb",
+            "targetArchitecture": "arm"
+        },
+        {
+            "name": "Debug Test Suite",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/zig-out/bin/lab-template-test",
+            "preLaunchTask": "build-test",
+            "cwd": ".",
+            "MIMode": "lldb",
+            "targetArchitecture": "arm"
+
         },
         {
             "name": "Test Current Zig File",
