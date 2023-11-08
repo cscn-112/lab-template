@@ -9,13 +9,13 @@ pub fn build(b: *std.Build) !void {
 
     // Run step
 
-    const exe = try template_setup.exe(.{ .name = "run", .description = "Run the app", .path = .{ .path = "src/main.cpp" } });
+    const exe = try template_setup.exe(.{ .name = "run", .description = "Run the app", .script_path = .{ .path = "src/main.cpp" } });
 
     exe.addCSourceFiles(.{ .files = sources.items, .flags = &.{} });
     exe.linkLibCpp();
 
     // Test step
 
-    const unit_tests = try template_setup.testSuite(.{ .name = "test", .description = "Run unit tests", .path = .{ .path = "test/sanity.zig" } });
+    const unit_tests = try template_setup.testSuite(.{ .name = "test", .description = "Run unit tests", .script_path = .{ .path = "test/sanity.zig" } });
     _ = unit_tests;
 }

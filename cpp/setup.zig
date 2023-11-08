@@ -89,7 +89,7 @@ pub fn Project(comptime project_name: []const u8) type {
             name: []const u8,
             binary_name: []const u8 = project_name,
             description: []const u8,
-            path: Path,
+            script_path: Path,
         };
 
         /// Add a compiled executable binary to the setup
@@ -98,7 +98,7 @@ pub fn Project(comptime project_name: []const u8) type {
                 .name = cmd.name,
                 .kind = .Executable,
                 .description = cmd.description,
-                .path = cmd.path,
+                .script_path = cmd.script_path,
             });
         }
 
@@ -109,7 +109,7 @@ pub fn Project(comptime project_name: []const u8) type {
                 .binary_name = cmd.binary_name,
                 .kind = .TestSuite,
                 .description = cmd.description,
-                .path = cmd.path,
+                .script_path = cmd.script_path,
             });
         }
 
